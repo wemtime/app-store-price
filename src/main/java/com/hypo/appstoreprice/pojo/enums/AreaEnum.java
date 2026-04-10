@@ -26,7 +26,7 @@ public enum AreaEnum {
 
     HONGKONG("hk", "香港", "HK$", "HKD", StrUtil.COMMA, "App 內購買", "zh-HK"),
 
-    JAPAN("jp", "日本", "¥", "JPY", StrUtil.COMMA, "アプリ内課金", "ja-JP"),
+    JAPAN("jp", "日本", "¥", "JPY", StrUtil.COMMA, "アプリ内購入", "ja-JP"),
 
     KOREA("kr", "韩国", "₩", "KRW", StrUtil.COMMA, "앱 내 구입", "ko-KR"),
 
