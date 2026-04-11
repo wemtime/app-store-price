@@ -153,6 +153,7 @@ public class AppService {
                     dto.setAppName(item.getTitle());
                     dto.setAppImage(item.getIcon().getTemplate());
                     dto.setAppDesc(item.getSubtitle());
+                    dto.setPlatform(entity);
                     return dto;
                 }).toList();
                 resultList.addAll(entityResultList);
@@ -160,7 +161,7 @@ public class AppService {
             APP_LIST_CACHE.put(cacheKey, resultList.stream().collect(Collectors.toMap(
                     GetAppListResDTO::getAppId,
                     Function.identity(),
-                    (existingValue, newValue) -> existingValue,
+                    (existingValue, newValue) -> StrUtil.equals("iphone", existingValue.getPlatform()) ? existingValue : newValue,
                     LinkedHashMap::new))
                 .values()
                 .stream()

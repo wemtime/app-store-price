@@ -102,7 +102,16 @@
         /* iOS 图标圆角 (Squircle 近似) */
         .app-icon {
             border-radius: 22%;
+            overflow: hidden;
             box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
+        .app-icon-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transform: scale(1.03);
         }
 
         /* 隐藏滚动条但保留功能 */
@@ -175,10 +184,6 @@
         /* 提升暗色模式质感：添加极细的内发光 */
         .dark .shadow-ios {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-        }
-
-        .dark .app-icon {
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         .spinner-xs {
@@ -395,11 +400,18 @@
                     <template x-for="app in appList" :key="app.appId">
                         <div @click="selectApp(app)"
                             class="bg-white dark:bg-zinc-800/80 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-white/5 hover:shadow-md hover:border-blue-100 dark:hover:border-blue-900/50 transition-all cursor-pointer group flex items-center gap-3">
-                            <img :src="app.appImage"
-                                class="w-14 h-14 app-icon bg-slate-100 dark:bg-zinc-700 object-cover flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                            <div
+                                class="w-14 h-14 app-icon bg-slate-100 dark:bg-zinc-700 flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                                <img :src="app.appImage" class="app-icon-img">
+                            </div>
                             <div class="flex-grow min-w-0">
-                                <h3 class="font-semibold text-slate-900 dark:text-white text-sm truncate"
-                                    x-text="app.appName"></h3>
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <h3 class="flex-1 min-w-0 font-semibold text-slate-900 dark:text-white text-sm truncate"
+                                        x-text="app.appName"></h3>
+                                    <span x-show="['mac', 'tv'].includes((app.platform || '').toLowerCase())"
+                                        class="flex-shrink-0 inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                                        x-text="(app.platform || '').toLowerCase() === 'mac' ? 'Mac' : 'TV'"></span>
+                                </div>
                                 <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5"
                                     x-text="app.appDesc || '应用'"></p>
                             </div>
@@ -465,8 +477,9 @@
 
                         <div class="flex flex-col sm:flex-row gap-5 relative z-10">
                             <div class="flex-shrink-0 mx-auto sm:mx-0">
-                                <img :src="currentApp.appImage || selectedAppImage"
-                                    class="w-24 h-24 app-icon bg-slate-100 dark:bg-zinc-700 object-cover shadow-lg">
+                                <div class="w-24 h-24 app-icon bg-slate-100 dark:bg-zinc-700 shadow-lg">
+                                    <img :src="currentApp.appImage || selectedAppImage" class="app-icon-img">
+                                </div>
                             </div>
                             <div class="flex-grow text-center sm:text-left">
                                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight mb-2"
@@ -565,8 +578,9 @@
                             <!-- 头部信息 -->
                             <div class="p-6 pb-4 flex flex-col sm:flex-row gap-5">
                                 <div class="relative flex-shrink-0 mx-auto sm:mx-0 w-24 h-24">
-                                    <img :src="selectedAppImage"
-                                        class="w-full h-full app-icon bg-slate-100 dark:bg-zinc-700 object-cover shadow-md">
+                                    <div class="w-full h-full app-icon bg-slate-100 dark:bg-zinc-700 shadow-md">
+                                        <img :src="selectedAppImage" class="app-icon-img">
+                                    </div>
                                     <div
                                         class="absolute -bottom-2 -right-2 bg-black/80 backdrop-blur text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg border border-white/10 flex items-center gap-1">
                                         <span :class="'fi fi-' + app.area.toLowerCase()"

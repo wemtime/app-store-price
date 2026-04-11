@@ -31,4 +31,9 @@ public class GetAppListResDTO {
      */
     private String appDesc;
 
+    /**
+     * platform
+     */
+    private String platform;
+
 }
